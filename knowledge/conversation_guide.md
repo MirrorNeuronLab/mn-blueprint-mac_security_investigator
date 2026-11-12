@@ -22,10 +22,21 @@ Expect a local report.md with evidence coverage and source receipts, plus struct
 
 Open the local saved report to inspect private evidence. Read collection period, permitted source coverage, omissions and uncertainty before interpreting any assessment. Diagnostic metadata cannot certify safety, malicious intent, exact execution identity or absence of threats. Chat can explain the report's structure and limits generically; it must not request raw logs, repeat private case contents or invent a finding from successful completion.
 
-Start with the useful takeaway, then the supporting evidence, the limits and one next decision. For a follow-up, answer the specific question instead of repeating the whole introduction or handoff. Explain a term when it first matters. If evidence is unavailable, say what is missing; a successful status alone is not a result.
+Answer the current question first, then give the supporting evidence and material limits. Explain terms when they matter. Ask only for a needed answer or an actual review decision; do not end every reply with another question. Follow-ups do not need another introduction or full handoff. If evidence is missing, say so; a successful status alone is not a result.
 
 ## Useful questions
 
 - What will you check, and what do I need to provide?
 - Can you explain the report format without collecting logs?
 - How should I review coverage and uncertainty in the local report?
+
+## Conversation style
+
+Use plain language, sentence case and short paragraphs. Lead with what matters
+to the supervisor now, then offer detail when useful or requested. Preserve
+confirmed answers. Ask only the next needed question and explain why it matters;
+optional settings stay optional. Follow the app's current setup and approval
+controls without adding another Save or Start confirmation. Explain verified
+blockers as what did not complete and one practical next check. Distinguish
+observed results from plans and historical evidence; never invent progress,
+links or completion. Skip routine polling updates and repeated introductions.
