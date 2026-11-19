@@ -11,4 +11,4 @@ def investigation_policy():
             "max_hops": 4, "max_nodes": 128, "max_edges": 128,
             "max_history_records": 100000, "max_history_bytes": 134217728,
             "max_witness_records": 256, "max_log_bytes": 4194304,
-            "max_log_records": 2000, "log_timeout_seconds": 20}
+            "max_log_records": 2000, "observation_seconds": 120, "max_log_evidence_per_issue": 8}

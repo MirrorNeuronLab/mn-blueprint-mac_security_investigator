@@ -1,9 +1,9 @@
 {
   "$schema": "https://mirrorneuron.io/schemas/blueprint/v1/extensions/ui.schema.json",
   "starter_questions": [
-    "What will you check, and what do I need to provide?",
-    "Can you explain the report format without collecting logs?",
-    "How should I review coverage and uncertainty in the local report?"
+    "What will you watch during a run?",
+    "How can I review the evidence?",
+    "What do gaps in coverage mean?"
   ],
   "init_config_review": {
     "required": false,
@@ -21,7 +21,7 @@
   },
   "setup_guide": {
     "schema": "otterdesk.setup_guide.v1",
-    "introduction": "I'll prepare a bounded review of recent local Mac log metadata, with coverage and source receipts in a saved report. No input upload is needed; collection scope is automatic and the output folder is the only normal setting. Review private findings in the local report; Chat can explain the method and limits, and I cannot certify that your Mac is safe.",
+    "introduction": "Each run watches live security logs on this Mac for up to two minutes. Open the finished report to see the assessment, supporting events and any gaps in coverage.",
     "sample": {
       "available": false,
       "title": "Mac security investigator sample",
@@ -32,20 +32,31 @@
       }
     },
     "real": {
-      "introduction": "Keep the default report destination or choose another output folder. Logs are collected automatically on this Mac during a requested run; no source upload or elevated access is needed.",
+      "introduction": "Use the default report folder or choose another destination. I read the live logs available to your current account when you start a run.",
       "values": {}
     },
     "fields": [
       {
         "path": "outputs.folder_path",
         "label": "Output folder",
-        "description": "Folder for investigation reports. Recent Mac security logs are queried automatically.",
+        "description": "Folder for the web report and evidence from each live observation.",
         "type": "local_path",
         "required": false,
         "path_kind": "directory",
         "default": "~/Downloads/mac-security-investigator"
       }
     ],
-    "prompt_file": "@/payloads/prompts/setup.md"
+    "prompt_file": "@/payloads/prompts/setup.md",
+    "run_guidance": {
+      "on_start": "I’ll watch new security events on this Mac for up to two minutes, then assess the evidence available to your account.",
+      "web_ui_ready": "Open the Mac security report and start with Assessment. Follow an issue to Evidence and check Coverage for gaps.",
+      "output_ready": "Open report.md in the output folder to review the assessment, supporting events and coverage."
+    }
+  },
+  "web_ui": {
+    "enabled": true,
+    "adapter": "static_html",
+    "title": "Mac security report",
+    "description": "Review the assessment, supporting log events and coverage from a completed live observation."
   }
 }

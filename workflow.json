@@ -13,8 +13,8 @@
     {
       "id": "capture_mac_evidence",
       "kind": "source",
-      "label": "Capture Mac logs",
-      "goal": "Read permitted unified logs without inspecting OS files or performing remediation.",
+      "label": "Watch live Mac security logs",
+      "goal": "Observe new events for the selected macOS security services and log signals.",
       "needs": [],
       "control": {
         "timeout_seconds": 300,
@@ -41,8 +41,8 @@
     {
       "id": "investigate_temporal_behavior",
       "kind": "stage",
-      "label": "Investigate temporal behavior",
-      "goal": "Evaluate time-aware graph witnesses with explicit uncertainty.",
+      "label": "Assess security signals",
+      "goal": "Check live records for review signals and bind findings to retained evidence.",
       "needs": [
         "reconcile_evidence_history"
       ],
@@ -56,8 +56,8 @@
     {
       "id": "publish_security_review",
       "kind": "sink",
-      "label": "Publish security review",
-      "goal": "Publish a local review packet with resolvable evidence.",
+      "label": "Publish security report",
+      "goal": "Publish a web report with the assessment, evidence and observation coverage.",
       "needs": [
         "investigate_temporal_behavior"
       ],

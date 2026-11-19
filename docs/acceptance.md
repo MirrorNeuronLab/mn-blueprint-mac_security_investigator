@@ -1,9 +1,9 @@
 # Temporal specification acceptance matrix
 
-Version 0.2.0 is a logs-only pilot. Native collection reads unified-log metadata
-only; it does not inspect startup/OS files. TB-01/TB-03 and execution attribution
-are not evaluable from these logs. The startup-related entries below describe
-synthetic temporal-analysis tests, not native collection capabilities.
+Native collection observes unified logs during a bounded live window. See the
+[current contract](../SPEC.md) for the security signals and report. The
+startup-related entries below track the synthetic temporal-analysis tests.
+TB-01/TB-03 and execution attribution remain outside the live log scope.
 
 Version 0.1.0 was the earlier startup-snapshot pilot. “Covered” below means a deterministic synthetic test
 exercises the stated implemented scope; it does not certify platform capability

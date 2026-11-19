@@ -1,19 +1,19 @@
 {
   "$schema": "https://mirrorneuron.io/schemas/blueprint/v1/contracts.schema.json",
-  "summary": "Local retrospective unified-log review without OS file inspection; diagnostic evidence only.",
+  "summary": "Observe selected macOS unified logs live and publish a review with evidence and coverage.",
   "inputs": {
     "output_folder": {
       "type": "local_path",
       "path_kind": "directory",
       "required": false,
       "example": "~/Downloads/mac-security-investigator",
-      "description": "Folder for investigation reports. Recent Mac security logs are queried automatically."
+      "description": "Folder for the web report and evidence from each live observation."
     },
     "supervisor_instructions": {
       "type": "array",
       "required": false,
       "privacy": "confidential",
-      "description": "Explicit explanation preferences for Chat, not clinical rules or native model instructions.",
+      "description": "Explicit explanation preferences for Chat.",
       "maxItems": 50,
       "items": {
         "type": "object",
@@ -95,6 +95,15 @@
         "artifact_id": "preview",
         "path": "web/index.html",
         "schema_version": "mn.mac_security.preview.v1",
+        "optional": true
+      },
+      {
+        "artifact_id": "web_ui",
+        "path": "web_ui.json",
+        "schema_version": "mn.blueprint.web_ui.v1",
+        "source_refs": [
+          "web/index.html"
+        ],
         "optional": true
       }
     ]

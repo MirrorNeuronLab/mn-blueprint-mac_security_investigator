@@ -2,7 +2,7 @@
   "$schema": "https://mirrorneuron.io/schemas/blueprint/v1/extensions/product.schema.json",
   "category": "Engineering",
   "intent": {
-    "problem": "Separate scans miss changes and recurrence across time.",
+    "problem": "Security events are hard to interpret as they happen.",
     "target_users": "Mac owners and local security reviewers.",
     "safety": {
       "enabled": true,
@@ -19,20 +19,19 @@
   },
   "product": {
     "agent_role": "Local Mac security co-worker",
-    "benefit": "Connect evidence over time and inspect what supports each concern.",
-    "problem": "Repeated scans can confuse observations with actual activity.",
-    "how_it_works": "Queries recent local security logs, retains diagnostic metadata across runs, and publishes source receipts and coverage without inspecting OS files.",
-    "input": "Output folder. Recent Mac unified logs are queried automatically.",
-    "output": "Diagnostic log metadata, source receipts, coverage, and saved reports.",
+    "benefit": "See which observed security events need review and what supports each assessment.",
+    "problem": "Live system logs are noisy and individual events need context.",
+    "how_it_works": "Observes two minutes of new macOS unified log events and checks them for specific security signals.",
+    "input": "Output folder. Live log collection starts automatically with each run.",
+    "output": "Web report with assessment, timestamped evidence and coverage. JSON and Markdown copies are also saved.",
     "runtime_features": [
-      "Logs-only collection",
-      "Explicit coverage and attribution limits",
-      "Persistent diagnostic history",
-      "Historical replay",
-      "Local graph context"
+      "Live macOS unified log observation",
+      "Evidence-backed review",
+      "Coverage and collection receipts",
+      "Local history"
     ],
     "target_users": "Mac owners and local security reviewers.",
-    "simulation_type": "Synthetic evidence is used only in tests; runs inspect the local Mac.",
-    "customizable_for": "Local read-only retrospective investigations."
+    "simulation_type": "Each run watches the submitting Mac.",
+    "customizable_for": "Local read-only security observation."
   }
 }

@@ -25,7 +25,9 @@ def enrich(block, history, analysis):
     if settings.get("offline") or not settings.get("text_memory", {}).get("enabled", False):
         return {"status": "explicitly_disabled", "queries": [],
                 "qualification": "Deterministic temporal analysis only; context graph navigation disabled."}
-    if "history_capacity" in analysis["completeness"]["unresolved"]:
+    limits = analysis["completeness"]["limits"]
+    size = history.snapshot_size(analysis["graph_revision"])
+    if size["assertions"] > limits["max_history_records"] or size["assertion_bytes"] > limits["max_history_bytes"]:
         return {"status": "INCOMPLETE_SEARCH", "queries": [], "qualification": "History capacity exceeded; graph publication unevaluated."}
     require_local_context()
     from mn_context_engine_sdk.intelligent_system import RuntimeRecord
@@ -63,6 +65,8 @@ def enrich(block, history, analysis):
         receipts = memory.record_many(publications, namespace="job", allow=["mac-security-investigator"])
         allowed = {receipt["source_id"]: by_source[receipt["source_id"]] for receipt in receipts}
         for case in analysis["cases"]:
+            if case["pattern_family"] not in {"TB-01", "TB-03"}:
+                continue
             # Explicit source selection enforces the knowledge cutoff even if
             # this Job's Membrane corpus already contains a later assessment.
             sources = [sid for sid, r in allowed.items() if r["scope"] == case["scope"]

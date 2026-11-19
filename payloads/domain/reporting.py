@@ -7,6 +7,7 @@ from mn_temporal_graph_skill import fingerprint
 
 from .configuration import BLUEPRINT_ID, investigation_policy
 from .history import history
+from .live_reporting import document as live_document
 from .timeline import project as project_timeline
 
 
@@ -52,11 +53,13 @@ def project(block, inputs):
     report = block.store.read(inputs["previous"]["analysis"])
     ledger = history(block, report["host_epoch_id"])
     try:
-        report_id = "assessment-v3-" + fingerprint([report["graph_revision"], report["policy_version"], report["completeness"]["limits"]])
+        live = "observation" in report
+        presentation = "assessment-v4-" if live else "assessment-v3-"
+        report_id = presentation + fingerprint([report["graph_revision"], report["policy_version"], report["completeness"]["limits"]])
         replay = ledger.get_report(report_id)
         if replay is not None:
             report = replay
-        else:
+        elif not live:
             if "history_capacity" not in report["completeness"]["unresolved"]:
                 report["timeline"] = project_timeline(ledger, report["graph_revision"], investigation_policy()["max_witness_records"])
             previous = ledger.previous_report(report["graph_revision"])
@@ -70,16 +73,20 @@ def project(block, inputs):
                 case["case_revision"] = (old.get("case_revision", 1) if old else 0) + int(changed)
                 case["material_change"] = changed
                 case["change_reason"] = "new_concern" if old is None else "assessment_or_behavior_changed" if changed else "unchanged_reobservation"
+        references = [ref for case in report["cases"] for ref in case["evidence_refs"]]
+        if live:
+            references.append(report["observation"]["receipt_ref"])
+            references.extend(report["observation"]["recent_record_refs"])
         evidence = {}
-        for case in report["cases"]:
-            for ref in case["evidence_refs"]:
-                retained = ledger.resolve_evidence(ref)
-                if retained["status"] != "retained":
-                    raise ValueError("required claim has unavailable source support")
-                evidence[fingerprint(ref)] = retained
+        for ref in references:
+            retained = ledger.resolve_evidence(ref)
+            if retained["status"] != "retained":
+                raise ValueError("required claim has unavailable source support")
+            evidence[fingerprint(ref)] = retained
         if replay is None:
             report["report_id"] = report_id
-            report["report_document"] = ReportDocument.from_dict(document(report)).to_dict()
+            projection = live_document(report, evidence) if live else document(report)
+            report["report_document"] = ReportDocument.from_dict(projection).to_dict()
             ledger.save_report(report_id, report["graph_revision"], fingerprint(report), report)
             report = ledger.get_report(report_id)
         published = {**report, "output_files": [

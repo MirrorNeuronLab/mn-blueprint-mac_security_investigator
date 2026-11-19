@@ -105,7 +105,8 @@
           "final_artifact",
           "evidence",
           "report",
-          "preview"
+          "preview",
+          "web_ui"
         ]
       }
     }
